@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Informations sur un marché</title>
+    <style>
+        * {
+            margin: 0;
+        }
+        .container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .detail {
+            height: 50%;
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            row-gap: 20px;
+            box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.1);
+        }
+        .categories {
+            display: flex;
+            row-gap: 20px;
+        }
+    </style>th:if="${marche !=
+</head>
+<body>
+    <div class="container">
+        <div null}" class="detail">
+            <div th:text="'Nom : ' + ${marche.getNom()}"></div>
+            <div th:text="'Emplacement : ' + ${marche.getEmplacement()}"></div>
+            <div th:text="'Heure ouverture : ' + ${marche.getHeureOuverture()}"></div>
+            <div th:text="'Heure fermeture : ' + ${marche.getHeureFermeture()}"></div>
+            <div th:text="'Nombre de hangars : ' + ${marche.getNbreHangars()}"></div>
+            <div>
+                <h4>Catégories</h4>
+                <div th:each="categorie : ${marche.getCategories()}" class="categories">
+                    <span th:text="${categorie}"></span>
+                </div>
+            </div>
+        </div>
+        <div th:unless="${marche != null}" class="detail">
+            Le marché n'existe
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ma Liste de marchés</title>
+    <style>
+        .container {
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .table {
+            padding-left: 0;
+            border-collapse: collapse;
+        }
+
+        .table th, .table td {
+            padding: 25px 30px;
+            margin-bottom: 25px;
+        }
+        .table .table-header {
+            color: #ffffff;
+            background-color: #1b6eeb;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .table a {
+            color: #1b6eeb;
+            font-size: 15px;
+            text-decoration: none;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .table .table-row {
+            box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <table class="table">
+        <tr class="table-header">
+            <th>Nom</th>
+            <th>Emplacement</th>
+            <th>Heure ouverture</th>
+            <th>Heure fermeture</th>
+            <th>Nombre hangars</th>
+            <th>Categories</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="marche, status : ${marches}" class="table-row">
+            <td th:text="${marche.nom}"></td>
+            <td th:text="${marche.emplacement}"></td>
+            <td th:text="${marche.heureOuverture}"></td>
+            <td th:text="${marche.heureFermeture}"></td>
+            <td th:text="${marche.nbreHangars}"></td>
+            <td>
+                <div th:each="categorie : ${marche.categories}" class="categories">
+                    <span th:text="${categorie}"></span>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <a th:href="@{'/marches/' + ${status.index + 1}}">voire détail</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
