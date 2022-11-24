@@ -1,18 +1,27 @@
 package tg.univ.kara.lpmmi.marches.model;
 
+import jakarta.persistence.*;
+
+import java.util.Collection;
 import java.util.List;
 
+@Entity
 public class Marche {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String emplacement;
     private String heureOuverture;
     private String heureFermeture;
     private int nbreHangars;
-    private List<Categories_Enum> categories;
+    @ElementCollection(targetClass = Categories_Enum.class)
+    @CollectionTable
+    @Enumerated(EnumType.STRING)
+    private Collection<Categories_Enum> categories;
     private String nom;
 
-    public Marche(int id, String emplacement, String heureOuverture, String heureFermeture, int nbreHangars, List<Categories_Enum> categories, String nom) {
+    public Marche(Integer id, String emplacement, String heureOuverture, String heureFermeture, int nbreHangars, Collection<Categories_Enum> categories, String nom) {
         this.id = id;
         this.emplacement = emplacement;
         this.heureOuverture = heureOuverture;
@@ -22,11 +31,15 @@ public class Marche {
         this.nom = nom;
     }
 
-    public int getId() {
+    public Marche() {
+
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -70,11 +83,11 @@ public class Marche {
         this.nbreHangars = nbre_hangars;
     }
 
-    public List<Categories_Enum> getCategories() {
+    public Collection<Categories_Enum> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Categories_Enum> categories) {
+    public void setCategorie(Collection<Categories_Enum> categories) {
         this.categories = categories;
     }
 

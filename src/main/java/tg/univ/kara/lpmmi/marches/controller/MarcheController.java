@@ -1,5 +1,6 @@
 package tg.univ.kara.lpmmi.marches.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,16 +11,14 @@ import tg.univ.kara.lpmmi.marches.services.MarcheInterfaceImpl;
 @Controller
 public class MarcheController {
 
+    @Autowired
     private MarcheInterfaceImpl marcheInterface;
 
-    public MarcheController() {
-        marcheInterface = new MarcheInterfaceImpl();
-    }
-
     @GetMapping("marches")
-    public void getMarches(Model model) {
+    public String getMarches(Model model) {
         var marches = marcheInterface.getMarches();
         model.addAttribute("marches", marches);
+        return "marches";
     }
 
     @GetMapping("marches/{id}")
