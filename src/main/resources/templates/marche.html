@@ -28,11 +28,11 @@
             display: flex;
             row-gap: 20px;
         }
-    </style>th:if="${marche !=
+    </style>
 </head>
 <body>
     <div class="container">
-        <div null}" class="detail">
+        <div th:if="${marche !=null}" class="detail">
             <div th:text="'Nom : ' + ${marche.getNom()}"></div>
             <div th:text="'Emplacement : ' + ${marche.getEmplacement()}"></div>
             <div th:text="'Heure ouverture : ' + ${marche.getHeureOuverture()}"></div>
