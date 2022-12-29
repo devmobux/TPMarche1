@@ -9,13 +9,13 @@ import java.util.List;
 public class Marche {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String emplacement;
     private String heureOuverture;
     private String heureFermeture;
     private int nbreHangars;
-    @ElementCollection(targetClass = Categories_Enum.class)
+    @ElementCollection(targetClass = Categories_Enum.class, fetch = FetchType.EAGER)
     @CollectionTable
     @Enumerated(EnumType.STRING)
     private Collection<Categories_Enum> categories;

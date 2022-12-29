@@ -1,31 +1,62 @@
 package tg.univ.kara.lpmmi.marches.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import tg.univ.kara.lpmmi.marches.model.Marche;
-import tg.univ.kara.lpmmi.marches.services.MarcheInterfaceImpl;
+import tg.univ.kara.lpmmi.marches.model.ResponseObject;
+import tg.univ.kara.lpmmi.marches.services.MarcheServiceImpl;
 
-@Controller
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
 public class MarcheController {
 
     @Autowired
-    private MarcheInterfaceImpl marcheInterface;
+    private MarcheServiceImpl marcheInterface;
 
-    @GetMapping("marches")
-    public String getMarches(Model model) {
-        var marches = marcheInterface.getMarches();
-        model.addAttribute("marches", marches);
-        return "marches";
+    @GetMapping("/api/marches")
+    public ResponseEntity<Object> getMarches() {
+        List<Marche> marches = marcheInterface.getMarches();
+        return ResponseEntity.ok(new ResponseObject(HttpStatus.OK, "Success", marches));
     }
 
-    @GetMapping("marches/{id}")
-    public String findById(@PathVariable(required=false,name="id") int id, Model model) {
+    @GetMapping("api/marches/{id}")
+    public ResponseEntity<Object> findById(@PathVariable(required = true, name="id") int id) {
         Marche marche = marcheInterface.findById(id);
-        model.addAttribute("marche", marche);
-        return "marche";
+        if(marche != null) {
+            return ResponseEntity.ok(new ResponseObject(HttpStatus.OK, "Success", marche));
+        }
+        return ResponseEntity.ok(new ResponseObject(HttpStatus.NOT_FOUND, "Marche not found", null));
+    }
+
+    @PostMapping("/api/marches")
+    public ResponseEntity<Object> addMarche(@RequestBody Marche marche) {
+        Marche addedMarche = marcheInterface.addMarche(marche);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(new ResponseObject(HttpStatus.CREATED, "Success", addedMarche));
+    }
+
+    @PutMapping("/api/marches/{id}")
+    public ResponseEntity<Object> updateMarche(@PathVariable(required = true, name="id") int id, @RequestBody Marche marche) {
+        Marche updateMarche = marcheInterface.updateMarche(id, marche);
+        if(updateMarche != null) {
+            return ResponseEntity.ok(new ResponseObject(HttpStatus.OK, "Success", updateMarche));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body(new ResponseObject(HttpStatus.NOT_FOUND, "Marche not found", null));
+    }
+
+    @DeleteMapping("/api/marches/{id}")
+    public ResponseEntity<Object> deleteMarche(@PathVariable(required = true, name="id") int id) {
+        Marche deleteMarche = marcheInterface.deleteMarche(id);
+        if(deleteMarche != null) {
+            return ResponseEntity.ok(new ResponseObject(HttpStatus.OK, "Success", null));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body(new ResponseObject(HttpStatus.NOT_FOUND, "Marche not found", null));
     }
 
 }
